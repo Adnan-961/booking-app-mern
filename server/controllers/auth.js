@@ -1,5 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 export const register = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -26,9 +28,15 @@ export const login = async (req, res, next) => {
       user.password
     );
     if (!isPasswordCorrect) res.status(400).json("Password is not correct");
-
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      "SecretPassword123"
+    );
     const { password, isAdmin, ...otherDetails } = user._doc;
-    res.status(200).json(otherDetails);
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(otherDetails);
   } catch (err) {
     next(err);
   }
