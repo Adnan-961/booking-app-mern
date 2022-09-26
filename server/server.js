@@ -23,7 +23,6 @@ app.listen(port, () => {
   connect();
   console.log(`server started on port ${port}`);
 });
-app.use(cookieParser);
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("welcome");
@@ -33,3 +32,4 @@ app.use("/auth", authRoute);
 app.use("/rooms", roomRoute);
 app.use("/hotels", hotelsRoute);
 app.use("/users", usersRoute);
+app.use(cookieParser);
