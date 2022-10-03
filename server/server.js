@@ -6,6 +6,8 @@ import roomRoute from "./routes/rooms.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
 dotenv.config();
 const app = express();
 const port = 9000;
@@ -18,14 +20,9 @@ const connect = async () => {
     throw err;
   }
 };
-
-
-
+// app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-
-
-
 
 app.get("/", (req, res) => {
   res.send("welcome");
@@ -34,10 +31,6 @@ app.use("/auth", authRoute);
 app.use("/rooms", roomRoute);
 app.use("/hotels", hotelsRoute);
 app.use("/users", usersRoute);
-
-
-
-
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
@@ -49,8 +42,6 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
-
-
 
 app.listen(port, () => {
   connect();
