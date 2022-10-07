@@ -13,7 +13,6 @@ const Login = () => {
   const { user, loading, error, dispatch } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  console.log(user);
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
